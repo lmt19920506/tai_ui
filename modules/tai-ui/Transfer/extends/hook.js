@@ -1,9 +1,10 @@
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
-export function usetTargetIndex(initialIndex) {
+export function useTargetIndex(initialIndex) {
     const targetIndex = ref(initialIndex)
     function setTargetIndex(newIndex) {
         targetIndex.value = Number(newIndex)
+        console.log(targetIndex.value)
     }
     return [
         targetIndex,
