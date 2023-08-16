@@ -1,30 +1,33 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div class="slider-bar">
+    <tree-menu>
+      <template v-for="item of menuArr">
+        <menu-item v-if="!item.children" :key="item.id">
+          {{ item.title }}
+        </menu-item>
+        <re-sub-menu v-else :key="item.id" :data="item">
+        </re-sub-menu>
+      </template>
+    </tree-menu>
+  </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import menuData from "@/data/menu";
+import { computed } from "vue";
+export default {
+  setup() {
+    const menuArr = computed(() => menuData);
 
-nav {
-  padding: 30px;
+    return {
+      menuArr,
+    };
+  },
+};
+</script>
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+<style lang="scss" scoped>
+.slider-bar {
+  width: 300px;
 }
 </style>
