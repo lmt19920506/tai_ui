@@ -5,22 +5,22 @@ export default [
             {
                 id: 1,
                 phone_name: 'Mate 50 Pro',
-                disable: false
+                disabled: false
             },
             {
                 id: 2,
                 phone_name: 'Mate 40 Pro',
-                disable: false
+                disabled: false
             },
             {
                 id: 3,
                 phone_name: 'P40 Pro',
-                disable: true
+                disabled: true
             },
             {
                 id: 6,
                 phone_name: '荣耀20',
-                disable: false
+                disabled: false
             }
         ]
     },
@@ -30,22 +30,22 @@ export default [
             {
                 id: 7,
                 phone_name: '小米11 Ultra',
-                disable: false
+                disabled: false
             },
             {
                 id: 8,
                 phone_name: '小米10',
-                disable: false
+                disabled: false
             },
             {
                 id: 9,
                 phone_name: '红米K40',
-                disable: true
+                disabled: true
             },
             {
                 id: 10,
                 phone_name: '小米mix',
-                disable: false
+                disabled: false
             }
         ]
     },
@@ -55,22 +55,22 @@ export default [
             {
                 id: 11,
                 phone_name: 'iphone13 pro max',
-                disable: false
+                disabled: false
             },
             {
                 id: 12,
                 phone_name: 'iphone13 Pro',
-                disable: false
+                disabled: false
             },
             {
                 id: 13,
                 phone_name: 'iphone 12',
-                disable: true
+                disabled: true
             },
             {
                 id: 16,
                 phone_name: 'iphone11',
-                disable: false
+                disabled: false
             }
         ]
     },

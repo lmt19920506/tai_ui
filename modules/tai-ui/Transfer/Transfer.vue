@@ -1,41 +1,92 @@
 <template>
   <div>
     <div>
-        <select @change="setTargetIndex($event.target.value)">
-            <option 
-                v-for="(title, index) of options"
-                :key="index"
-                :value="index"
-            >
-            {{ title }}
+      <select @change="setTargetIndex($event.target.value)">
+        <option v-for="(title, index) of options" :key="index" :value="index">
+          {{ title }}
         </option>
-        </select>
+      </select>
     </div>
     <div class="transfer">
-      <div class="box left-list">{{ leftTitle }}</div>
-      <div class="box button-group"></div>
-      <div class="box right-list"></div>
+      <div class="box left-list">
+        <h1 class="list-title">{{ leftTitle }}</h1>
+        <list-item
+          :data="leftListData"
+          left-or-right="left"
+          @checkboxClick="setCheckedData"
+        />
+      </div>
+      <button-group
+        :left-button-disabled="transferButtonDisabled.left"
+        :right-button-disabled="transferButtonDisabled.right"
+        @leftButtonClick="removeRightListData(checkedData.right)"
+        @rightButtonClick="addRightListData(checkedData.left)"
+      />
+      <div class="box right-list">
+        <h1 class="list-title">{{ rightTitle }}</h1>
+        <list-item :data="rightListData" left-or-right="right" @checkbox-click="setCheckedData" />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import propsDefination from './extends/props'
-import { useTargetIndex, useComputedData } from './extends/hook'
+import ListItem from "./components/ListItem.vue";
+import ButtonGroup from "./components/ButtonGroup.vue";
+import propsDefination from "./extends/props";
+import {
+  useTargetIndex,
+  useCheckedData,
+  useRightListData,
+  useComputedData,
+} from "./extends/hook";
 
-const [targetIndex, setTargetIndex] = useTargetIndex(0)
-const { leftTitle } = useComputedData(props.data, targetIndex)
+const [targetIndex, setTargetIndex] = useTargetIndex(0);
+const { checkedData, addCheckedData, removeCheckedData } = useCheckedData();
+const { rightListData, addRightListData, removeRightListData } =
+  useRightListData([], checkedData);
+const { leftTitle, leftListData, transferButtonDisabled } = useComputedData(
+  props.data,
+  targetIndex,
+  rightListData,
+  checkedData
+);
 
-const props = defineProps(propsDefination)
-console.log('right title---', props.rightTitle, props)
-const options = props.data.map(({ title }) => title)
+console.log("transferButtonDisabled0--", transferButtonDisabled);
+const props = defineProps(propsDefination);
+console.log("right title---", props.rightTitle, props);
+const options = props.data.map(({ title }) => title);
 
-// const setTargetIndex = index => {
-//     console.log('change---', index)
-// }
-
+const setCheckedData = (checked, leftOrRight, item) => {
+  // console.log('e---', checked)
+  checked
+    ? addCheckedData(leftOrRight, item)
+    : removeCheckedData(leftOrRight, item.id);
+};
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.transfer {
+  display: flex;
+  flex-direction: row;
+  width: 360px;
+  height: 300px;
+  border: 1px solid #ddd;
+  .box {
+    width: 120px;
+    height: 100%;
+    .list-title {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 38px;
+      font-weight: normal;
+      margin: 0;
+      color: #666;
+      border-bottom: 1px solid #ddd;
+      background-color: #efefef;
+      font-size: 14px;
+    }
+  }
+}
 </style>
