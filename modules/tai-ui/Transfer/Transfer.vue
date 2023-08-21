@@ -8,12 +8,13 @@
       </select>
     </div>
     <div class="transfer">
-      <div class="box left-list">
+      <div class="box left-list" @dragover.prevent @drop="removeRightListData([dragedItem])">
         <h1 class="list-title">{{ leftTitle }}</h1>
         <list-item
           :data="leftListData"
           left-or-right="left"
           @checkboxClick="setCheckedData"
+          @drag-item="setDragItem"
         />
       </div>
       <button-group
@@ -22,9 +23,14 @@
         @leftButtonClick="removeRightListData(checkedData.right)"
         @rightButtonClick="addRightListData(checkedData.left)"
       />
-      <div class="box right-list">
+      <div class="box right-list" @dragover.prevent @drop="addRightListData([dragedItem])">
         <h1 class="list-title">{{ rightTitle }}</h1>
-        <list-item :data="rightListData" left-or-right="right" @checkbox-click="setCheckedData" />
+        <list-item
+          :data="rightListData"
+          left-or-right="right"
+          @checkbox-click="setCheckedData"
+          @drag-item="setDragItem"
+        />
       </div>
     </div>
   </div>
@@ -38,6 +44,7 @@ import {
   useTargetIndex,
   useCheckedData,
   useRightListData,
+  useDragItem,
   useComputedData,
 } from "./extends/hook";
 
@@ -45,6 +52,7 @@ const [targetIndex, setTargetIndex] = useTargetIndex(0);
 const { checkedData, addCheckedData, removeCheckedData } = useCheckedData();
 const { rightListData, addRightListData, removeRightListData } =
   useRightListData([], checkedData);
+const { dragedItem, setDragItem } = useDragItem()
 const { leftTitle, leftListData, transferButtonDisabled } = useComputedData(
   props.data,
   targetIndex,
